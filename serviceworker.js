@@ -55,9 +55,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((names) => {
       Promise.all(
         names.map((cacheKey) => {
-          console.log(cacheKey);
           if (cacheWhiteList.indexOf(cacheKey) === -1) {
-            console.log(cacheKey);
             // we don't need this cache key
             return caches.delete(cacheKey);
           }
@@ -72,7 +70,6 @@ self.addEventListener('fetch', (event) => {
 
   // proxying requests from the API
   if (parsedUrl.host == 'jsonplaceholder.typicode.com' && !navigator.onLine) {
-    console.log('hit the offline condition');
     event.respondWith(fetch('offline.json'));
   } else if (parsedUrl.pathname.match(/^\/_css*/)) {
     // Network-first policy
@@ -88,6 +85,7 @@ self.addEventListener('fetch', (event) => {
             return networkResponse;
           });
         });
+
         return response || networkFetch;
       })
     );
