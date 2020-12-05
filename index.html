@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Welcome to Explore California</title>
+<meta name="description" content="A lynda.com example of HTML5 and CSS3">
+<meta name="keywords" content="html5, css3, lynda, local storage, canvas, forms, semantics, web apps">
+<!--make sure mobile devices display the page at the proper scale	-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="_css/main.css" rel="stylesheet" type="text/css" media="screen, projection">
+<link href="_css/tablet.css" rel="stylesheet" type="text/css" media="all and (min-width: 481px) and (max-width: 768px)" />
+<link href="_css/mobile.css" rel="stylesheet" type="text/css" media="all and (min-width: 0px) and (max-width: 480px)" />
+<script src="weather.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body id="home" class="no-js">
+<div id="wrapper">
+  <header id="mainHeader"> <a href="index.html" title="home" class="logo">
+   <!-- I need this div because IE is an affront to mankind-->
+    <div>
+    <h1>Explore California</h1>
+    </div>
+    </a>
+    <nav id="siteNav">
+      <h1>Where do you want to go?</h1>
+      <ul>
+       <li><a href="tours.html" title="Our tours">Tours <br /><span class="tagline">follow our bliss</span></a>          
+        </li>
+        <li><a href="mission.html" title="What we believe">Mission <br /><span class="tagline">what makes us different?</span></a></li>
+        <li><a href="resources.html" title="planning resources">Resources <br /><span class="tagline">plan your trip</span></a>         
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <section id="actionCall">
+  <h1>Explore our world your way</h1>
+  <a href="tours.html" title="Find your tour!"><h2>Find your tour</h2></a>
+  </section>
+  <div id="contentWrapper">
+  <section id="mainContent">
+ <article id="mainArticle"> 
+   <h1>Current Weather</h1>
+   <ul id="weather">
+     <li>Checking Weather...</li>
+   </ul>
+ <h1>Tour Spotlight</h1>
+  <p class="spotlight">This month's spotlight package is Cycle California. Whether you are looking for some serious downhill thrills to a relaxing ride along the coast, you'll find something to love in Cycle California.<br /> </span></p>
+  <h1>Explorer's Podcast</h1>
+<video controls poster="_video/podcast_poster.jpg" width="512" height="288" preload="none">
+	<source src="_video/podcast_teaser.mp4" type="video/mp4" />
+	<source src="_video/podcast_teaser.webm" type="video/webm" />
+	<source src="_video/podcast_teaser.theora.ogv"type="video/ogg" />
+</video>
+  <p class="videoText">Join us each month as we publish a new Explore California video podcast, with featured tours, customer photos, and some exctiing new features!<span class="accent"></span></p>
+  </article>
+  </section>
+  <aside id="secondaryContent">
+  <div id="specials">
+        <h1>Monthly Specials</h1>
+        <h2 class="top"><img src="_images/calm_bug.gif" alt="California Calm" width="75" height="75" />California Calm</h2>
+        <p>Day Spa Package <br />
+          <a href="tours.html">$250</a></p>
+        <h2><img src="_images/desert_bug.gif" alt="From desert to sea" width="75" height="75" />From Desert to Sea</h2>
+        <p>2 Day Salton Sea <br />
+          <a href="tours.html">$350</a></p>
+        <h2><img src="_images/backpack_bug.gif" alt="Backpack Cali" width="75" height="41" />Backpack Cali</h2>
+        <p>Big Sur Retreat <br />
+          <a href="tours.html">$620</a></p>
+          <h2><img src="_images/taste_bug.gif" alt="Taste of California" width="75" height="75" />Taste of California</h2>
+        <p>Tapas &amp; Groves <br />
+          <a href="tours.html">$150</a></p>
+      </div>
+        <h1>Did You Know?</h1>
+        <p>The official state flag of California was designed by William Todd and first used on June 14, 1846. The flag was not officially adopted until 1911. The flag features a grizzly bear, a red bar, a star and is one of the most recognizable state flags in the Nation.</p>
+  </aside>
+  </div>
+  <footer id="pageFooter">
+    <section id="quickLinks">
+    <h1>Quick Nav</h1>
+      <ul id="quickNav">
+        <li><a href="index.html" title="Our home page">Home</a></li>
+        <li><a href="tours.html" title="Explore our tours">Tours</a></li>
+        <li><a href="mission.html" title="What we think">Mission</a></li>
+        <li><a href="resources.html" title="Guidance and planning">Resources</a></li>
+      </ul>
+      </section>
+    <section id="footerResources">
+    
+    </section>
+    <section id="companyInfo">
+    <h1>Contact</h1>
+    <h2>Explore California</h2>
+        <p>5605 Nota Street<br />
+          Ventura, CA 93003</p>
+        <p>866.555.4310<br />866.555.4315 <em>(24 hour support)</em></p>
+    </section>
+    </footer>
+</div>
+</body>
+</html>
