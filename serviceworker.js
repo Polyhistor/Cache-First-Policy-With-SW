@@ -6,6 +6,7 @@ const precacheList = [
   'tours.html',
   'app.js',
   'weather.js',
+  'offline.json',
   '_css/fonts.css',
   '_css/main.css',
   '_css/mobile.css',
@@ -49,12 +50,28 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const parsedUrl = new URL(event.request.url);
-  if (parsedUrl.pathname.match(/^\/_css*/)) {
+
+  // proxying requests from the API
+  if (parsedUrl.host == 'jsonplaceholder.typicode.com' && !navigator.onLine) {
+    console.log('hit the offline condition');
+    event.respondWith(fetch('offline.json'));
+  } else if (parsedUrl.pathname.match(/^\/_css*/)) {
     // Network-first policy
     // event.respondWith(
     //   fetch(event.request).catch((e) => caches.match(event.request))
     // );
     // Stale while revalidate
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        const networkFetch = fetch(event.request).then((networkResponse) => {
+          return caches.open('california-assets-v1').then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+          });
+        });
+        return response || networkFetch;
+      })
+    );
   } else {
     // Cache-first Policy
     event.respondWith(
