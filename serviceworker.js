@@ -38,13 +38,32 @@ const precacheList = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
-      .open('california-assets-v1')
+      .open('california-assets-v2')
       .then((cache) => {
         return cache.addAll(precacheList);
       })
       .catch((e) => {
         console.info(e);
       })
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  // creating a whitelist
+  const cacheWhiteList = ['california-assets-v2', 'california-fonts-v1'];
+  event.waitUntil(
+    caches.keys().then((names) => {
+      Promise.all(
+        names.map((cacheKey) => {
+          console.log(cacheKey);
+          if (cacheWhiteList.indexOf(cacheKey) === -1) {
+            console.log(cacheKey);
+            // we don't need this cache key
+            return caches.delete(cacheKey);
+          }
+        })
+      );
+    })
   );
 });
 
@@ -64,7 +83,7 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       caches.match(event.request).then((response) => {
         const networkFetch = fetch(event.request).then((networkResponse) => {
-          return caches.open('california-assets-v1').then((cache) => {
+          return caches.open('california-assets-v2').then((cache) => {
             cache.put(event.request, networkResponse.clone());
             return networkResponse;
           });

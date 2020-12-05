@@ -5,7 +5,6 @@ window.addEventListener('load', () => {
       responses.forEach((response) => {
         response.json().then((data) => {
           let li;
-          console.log(data);
 
           if (data[0] && data[0].error) {
             li = `<li>Offline</li>`;
