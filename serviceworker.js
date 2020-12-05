@@ -47,16 +47,37 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Cache-first Policy
 self.addEventListener('fetch', (event) => {
-  // responding with the request that we have cached
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response; // the URL is cached
-      } else {
-        return fetch(event.request); // we go to the actual network
-      }
-    })
-  );
+  const parsedUrl = new URL(event.request.url);
+  if (parsedUrl.pathname.match(/^\/_css*/)) {
+    // Network-first policy
+    // event.respondWith(
+    //   fetch(event.request).catch((e) => caches.match(event.request))
+    // );
+    // Stale while revalidate
+  } else {
+    // Cache-first Policy
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        if (response) {
+          return response; // the URL is cached
+        } else {
+          if (parsedUrl.pathname.match(/^\/_fonts*/)) {
+            const fetchRequest = fetch(event.request).then(
+              (networkResponse) => {
+                return caches.open('california-fonts-v1').then((cache) => {
+                  cache.put(event.request, networkResponse.clone());
+                  return networkResponse;
+                });
+              }
+            );
+
+            return fetchRequest;
+          } else {
+            return fetch(event.request); // we go to the actual network
+          }
+        }
+      })
+    );
+  }
 });
