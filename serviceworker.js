@@ -48,6 +48,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
+// runnin our whitelist check once the service worker is activated
 self.addEventListener('activate', (event) => {
   // creating a whitelist
   const cacheWhiteList = ['california-assets-v2', 'california-fonts-v1'];
@@ -65,6 +66,61 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+const allertPagesUpdate = () => {
+  clients
+    .matchAll({
+      // we do not want to push clients that are not under the control of the service worker
+      includeUncontrolled: false,
+      // we want to push to all the open client tabs
+      type: 'window',
+    })
+    .then((clients) => {
+      // broadcasting through message protocol to all window based clients (basically browser tabs)
+      clients.forEach((client) => {
+        const clientId = client.id;
+        const type = client.type;
+        const url = client.url;
+
+        client.postMessage({
+          action: 'resources-updated',
+        });
+      });
+    });
+};
+
+// receiving the message through message protocol
+self.addEventListener('message', (event) => {
+  const message = event.data;
+  switch (message.action) {
+    case 'update-resouces':
+      caches
+        .open('california-assets-v2')
+        .then((cache) => {
+          return cache.addAll(precacheList).then(() => {
+            allertPagesUpdate();
+          });
+        })
+        .catch((e) => {
+          console.info(e);
+        });
+      break;
+  }
+});
+
+// listening for sync events
+self.addEventListener('sync', (event) => {
+  console.log(event);
+  if (event.tag.substring(0, 4) == 'vote') {
+    const tourId = event.tag.substring(5);
+    fetch(`/vote.json?id=${tourId}`)
+      .then((r) => r.json())
+      .then((voted) => {
+        console.log('sync: voted!');
+      });
+  }
+});
+
+// sniffing on network requests
 self.addEventListener('fetch', (event) => {
   const parsedUrl = new URL(event.request.url);
 
